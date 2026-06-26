@@ -1,0 +1,97 @@
+PROGRAM         -> STATEMENT 
+                 | FUNCLIST 
+                 | epsilon
+
+FUNCLIST        -> FUNCDEF FUNCLIST_TAIL
+FUNCLIST_TAIL   -> FUNCLIST 
+                 | epsilon
+
+FUNCDEF         -> def ident(PARAMLIST){STATELIST}
+
+PARAMLIST       -> TYPE ident PARAMLIST_TAIL 
+                 | epsilon
+PARAMLIST_TAIL  -> , PARAMLIST 
+                 | epsilon
+
+STATEMENT       -> VARDECL;
+                 | ATRIBSTAT;
+                 | PRINTSTAT;
+                 | READSTAT;
+                 | RETURNSTAT;
+                 | IFSTAT
+                 | FORSTAT
+                 | {STATELIST}
+                 | break;
+                 | ;
+
+VARDECL         -> TYPE ident VARINDEXLIST
+
+VARINDEXLIST    -> [int_constant] VARINDEXLIST
+                 | epsilon
+
+ATRIBSTAT       -> LVALUE = EXPRESSION
+                 | LVALUE = ALLOCEXPR
+                 | LVALUE = FUNCCALL
+
+FUNCCALL        -> ident(PARAMLISTCALL)
+
+PARAMLISTCALL   -> ident, PARAMLISTCALL
+                 | ident
+                 | epsilon
+
+PRINTSTAT       -> print EXPRESSION
+
+READSTAT        -> read LVALUE
+
+RETURNSTAT      -> return
+
+IFSTAT          -> if(EXPRESSION) STATEMENT
+                 | if(EXPRESSION) STATEMENT else STATEMENT
+
+FORSTAT         -> for(ATRIBSTAT; EXPRESSION; ATRIBSTAT) STATEMENT
+
+STATELIST       -> STATEMENT
+                 | STATEMENT STATELIST
+
+ALLOCEXPR       -> new TYPE [NUMEXPR] NUMEXPRLIST
+
+EXPRESSION      -> NUMEXPR
+                 | NUMEXPR < NUMEXPR
+                 | NUMEXPR > NUMEXPR
+                 | NUMEXPR <= NUMEXPR
+                 | NUMEXPR >= NUMEXPR
+                 | NUMEXPR == NUMEXPR
+                 | NUMEXPR != NUMEXPR
+
+NUMEXPR         -> TERM TERMLIST
+
+TERMLIST        -> + TERM TERMLIST
+                 | - TERM TERMLIST
+                 | epsilon
+
+TERM            -> UNEXPR UNEXPRLIST
+
+UNEXPRLIST      -> * UNEXPR UNEXPRLIST
+                 | / UNEXPR UNEXPRLIST
+                 | % UNEXPR UNEXPRLIST
+                 | epsilon
+
+UNEXPR          -> + FACTOR
+                 | - FACTOR
+                 | FACTOR
+
+FACTOR          -> int_constant
+                 | float_constant
+                 | string_constant
+                 | null
+                 | LVALUE
+                 | (NUMEXPR)
+
+LVALUE          -> ident NUMEXPRLIST
+
+NUMEXPRLIST     -> [NUMEXPR] NUMEXPRLIST
+                 | epsilon
+
+TYPE            -> int
+                 | float
+                 | string
