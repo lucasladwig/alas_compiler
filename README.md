@@ -1,5 +1,5 @@
 # Compilador ALAS
-Teste
+Analisador Léxico e Sintático desenvolvido em Python.
 
 # Editing this README
 
