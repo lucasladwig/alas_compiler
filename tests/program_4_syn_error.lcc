@@ -1,0 +1,5 @@
+def principal() {
+    int a;
+    a = 5 + * 3;
+    return;
+}

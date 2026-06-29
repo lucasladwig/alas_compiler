@@ -1,20 +1,19 @@
 import sys
-from src.lexer.scanner import Token
-from src.parser.grammar import LL1_TABLE, TERMINALS
+from lexer.scanner import Token
+from parser.grammar import LL1_TABLE, TERMINALS
 
 
 class Parser:
     def __init__(self, tokens: list[Token]):
         self.tokens = tokens
         self.current_idx = 0
+        # Inicia pilha com EOF e Simbolo inicial
         self.stack = ['EOF', 'PROGRAM']
-
-        # Attach the imported data
         self.table = LL1_TABLE
         self.terminals = TERMINALS
 
     def report_error(self, top_symbol: str, current_token: Token):
-        """Formats and outputs the strict syntax error message required by the specification."""
+        """Cria e formata a mensagem de erro sintático."""
         sentential_form = " ".join(reversed(self.stack + [top_symbol]))
 
         error_msg = (
@@ -31,6 +30,12 @@ class Parser:
     def parse(self):
         """Loop principal do analisador sintático."""
         while len(self.stack) > 0:
+
+            # --- NOVA PROTEÇÃO ---
+            if self.current_idx >= len(self.tokens):
+                print("Erro Sintático: Fim de arquivo inesperado.")
+                sys.exit(1)
+
             top = self.stack.pop()
             current_token = self.tokens[self.current_idx]
 
@@ -45,21 +50,21 @@ class Parser:
                         f"Erro Sintático: Esperado terminal '{top}', mas encontrou '{current_token.type}' na linha {current_token.line}.")
                     sys.exit(1)
             else:
-                # It's a non-terminal, look up the rule in the parsing table
+                # É uma variável, busca a regra na tabela de parsing
                 rule_dict = self.table.get(top, {})
                 production = rule_dict.get(current_token.type)
 
                 if production is None:
-                    # Table entry is empty! Trigger the required error report.
+                    # Entrada na tabela está vazia, enviar mensagem de erro
                     self.report_error(top, current_token)
                 else:
-                    # Push production to stack in reverse order
+                    # Coloca a produção na pilha em ordem reversa
                     if production != ['epsilon']:
                         for symbol in reversed(production):
                             self.stack.append(symbol)
 
-        # If stack is empty and we reached EOF, parsing is successful
-        if self.tokens[self.current_idx].type == 'EOF':
+        # Se a pilha está vazia e chegamos no EOF, a análise foi bem-sucedida
+        if self.current_idx == len(self.tokens):
             print("Mensagem de sucesso: Análise sintática concluída sem erros.")
         else:
             print(

@@ -1,0 +1,8 @@
+def principal() {
+    int valor;
+    valor = 100;
+    
+    @ = 50;
+    
+    return;
+}
