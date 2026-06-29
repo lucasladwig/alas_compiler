@@ -1,0 +1,141 @@
+def astar() {
+    int grid[5][5];
+    int g_cost[5][5];
+    int f_cost[5][5];
+    int p_x[5][5];
+    int p_y[5][5];
+    int open_s[5][5];
+    int closed_s[5][5];
+    int start_x;
+    int start_y;
+    int target_x;
+    int target_y;
+    int curr_x;
+    int curr_y;
+    int min_f;
+    int i;
+    int j;
+    int iter;
+    int found;
+    int dx;
+    int dy;
+    int h;
+    int nx;
+    int ny;
+    int n_i;
+    int temp_g;
+    start_x = 0;
+    start_y = 0;
+    target_x = 4;
+    target_y = 4;
+    for(i = 0; i < 5; i = i + 1) {
+        for(j = 0; j < 5; j = j + 1) {
+            grid[i][j] = 0;
+            g_cost[i][j] = 9999;
+            f_cost[i][j] = 9999;
+            open_s[i][j] = 0;
+            closed_s[i][j] = 0;
+            p_x[i][j] = 0 - 1;
+            p_y[i][j] = 0 - 1;
+        }
+    }
+    grid[1][1] = 1;
+    grid[1][2] = 1;
+    grid[2][2] = 1;
+    grid[3][2] = 1;
+    g_cost[start_x][start_y] = 0;
+    dx = target_x - start_x;
+    dy = target_y - start_y;
+    if(dx < 0) {
+        dx = -dx;
+    }
+    if(dy < 0) {
+        dy = -dy;
+    }
+    f_cost[start_x][start_y] = dx + dy;
+    open_s[start_x][start_y] = 1;
+    found = 0;
+    for(iter = 0; iter < 25; iter = iter + 1) {
+        if(found == 0) {
+            min_f = 9999;
+            curr_x = 0 - 1;
+            curr_y = 0 - 1;
+            for(i = 0; i < 5; i = i + 1) {
+                for(j = 0; j < 5; j = j + 1) {
+                    if(open_s[i][j] == 1) {
+                        if(f_cost[i][j] < min_f) {
+                            min_f = f_cost[i][j];
+                            curr_x = i;
+                            curr_y = j;
+                        }
+                    }
+                }
+            }
+            if(curr_x == 0 - 1) {
+                found = 2;
+            } else {
+                if(curr_x == target_x) {
+                    if(curr_y == target_y) {
+                        found = 1;
+                    }
+                }
+                if(found == 0) {
+                    open_s[curr_x][curr_y] = 0;
+                    closed_s[curr_x][curr_y] = 1;
+                    for(n_i = 0; n_i < 4; n_i = n_i + 1) {
+                        nx = curr_x;
+                        ny = curr_y;
+                        if(n_i == 0) {
+                            ny = curr_y - 1;
+                        }
+                        if(n_i == 1) {
+                            nx = curr_x + 1;
+                        }
+                        if(n_i == 2) {
+                            ny = curr_y + 1;
+                        }
+                        if(n_i == 3) {
+                            nx = curr_x - 1;
+                        }
+                        if(nx >= 0) {
+                            if(nx < 5) {
+                                if(ny >= 0) {
+                                    if(ny < 5) {
+                                        if(grid[nx][ny] == 0) {
+                                            if(closed_s[nx][ny] == 0) {
+                                                temp_g = g_cost[curr_x][curr_y] + 1;
+                                                if(temp_g < g_cost[nx][ny]) {
+                                                    p_x[nx][ny] = curr_x;
+                                                    p_y[nx][ny] = curr_y;
+                                                    g_cost[nx][ny] = temp_g;
+                                                    dx = target_x - nx;
+                                                    dy = target_y - ny;
+                                                    if(dx < 0) {
+                                                        dx = -dx;
+                                                    }
+                                                    if(dy < 0) {
+                                                        dy = -dy;
+                                                    }
+                                                    h = dx + dy;
+                                                    f_cost[nx][ny] = temp_g + h;
+                                                    open_s[nx][ny] = 1;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    print found;
+    return;
+}
+def principal() {
+    int chamada;
+    chamada = astar();
+    return;
+}
