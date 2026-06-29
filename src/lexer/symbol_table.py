@@ -19,9 +19,8 @@ class SymbolTable:
 
         result = ["--- Tabela de Símbolos ---"]
         for name, occurrences in self.table.items():
-            # Format: ident_name: (Line: 1, Col: 5), (Line: 4, Col: 12)
             occ_str = ", ".join(
-                [f"(Linha: {l}, Coluna: {c})" for l, c in occurrences])
+                [f"({lin}, {col})" for lin, col in occurrences])
             result.append(f"{name}: {occ_str}")
 
         return "\n".join(result)

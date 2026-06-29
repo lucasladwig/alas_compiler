@@ -1,6 +1,6 @@
 import sys
 from dataclasses import dataclass
-from src.lexer.symbol_table import SymbolTable
+from lexer.symbol_table import SymbolTable
 
 
 @dataclass
@@ -212,9 +212,9 @@ class Scanner:
         try:
             while True:
                 token = self.get_next_token()
+                tokens.append(token)
                 if token.type == 'EOF':
                     break
-                tokens.append(token)
             return tokens
         except LexicalError as e:
             print(str(e))
