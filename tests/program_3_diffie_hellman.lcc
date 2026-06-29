@@ -1,0 +1,112 @@
+def diffie_hellman() {
+    int p;
+    int g;
+    int sec[10];
+    int pub[10];
+    int shared[10][10];
+    int i;
+    int j;
+    int k;
+    int temp;
+    int sk;
+    int pk;
+    p = 97;
+    g = 5;
+    sec[0] = 12;
+    sec[1] = 45;
+    sec[2] = 23;
+    sec[3] = 76;
+    sec[4] = 31;
+    sec[5] = 58;
+    sec[6] = 89;
+    sec[7] = 14;
+    sec[8] = 67;
+    sec[9] = 92;
+    for(i = 0; i < 10; i = i + 1) {
+        temp = 1;
+        sk = sec[i];
+        for(j = 0; j < sk; j = j + 1) {
+            temp = (temp * g) % p;
+        }
+        pub[i] = temp;
+    }
+    for(i = 0; i < 10; i = i + 1) {
+        for(j = 0; j < 10; j = j + 1) {
+            if (i != j) {
+                temp = 1;
+                pk = pub[j];
+                sk = sec[i];
+                for(k = 0; k < sk; k = k + 1) {
+                    temp = (temp * pk) % p;
+                }
+                shared[i][j] = temp;
+            } else {
+                shared[i][j] = 0;
+            }
+        }
+    }
+    print pub[0];
+    print pub[1];
+    print pub[2];
+    print pub[3];
+    print pub[4];
+    print pub[5];
+    print pub[6];
+    print pub[7];
+    print pub[8];
+    print pub[9];
+    print shared[0][1];
+    print shared[1][0];
+    print shared[0][2];
+    print shared[2][0];
+    print shared[0][3];
+    print shared[3][0];
+    print shared[0][4];
+    print shared[4][0];
+    print shared[0][5];
+    print shared[5][0];
+    print shared[0][6];
+    print shared[6][0];
+    print shared[0][7];
+    print shared[7][0];
+    print shared[0][8];
+    print shared[8][0];
+    print shared[0][9];
+    print shared[9][0];
+    print shared[1][2];
+    print shared[2][1];
+    print shared[1][3];
+    print shared[3][1];
+    print shared[1][4];
+    print shared[4][1];
+    print shared[1][5];
+    print shared[5][1];
+    print shared[1][6];
+    print shared[6][1];
+    print shared[1][7];
+    print shared[7][1];
+    print shared[1][8];
+    print shared[8][1];
+    print shared[1][9];
+    print shared[9][1];
+    print shared[2][3];
+    print shared[3][2];
+    print shared[2][4];
+    print shared[4][2];
+    print shared[2][5];
+    print shared[5][2];
+    print shared[2][6];
+    print shared[6][2];
+    print shared[2][7];
+    print shared[7][2];
+    print shared[2][8];
+    print shared[8][2];
+    print shared[2][9];
+    print shared[9][2];
+    return;
+}
+def principal() {
+    int iniciar;
+    iniciar = diffie_hellman();
+    return;
+}
