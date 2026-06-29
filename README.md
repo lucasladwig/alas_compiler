@@ -22,3 +22,19 @@ Não é necessária instalação de bibliotecas externas. Certifique-se de ter o
 ```bash
 python3.11 --version
 ```
+
+## Execução
+Para executar os testes dos programas **válidos** na linguagem (`.lcc`):
+```bash
+make test
+```
+
+Para executar os testes dos programas **inválidos** na linguagem (`.lcc`):
+```bash
+make test-errors
+```
+
+Para efetuar limpeza de cache e arquivos temporários:
+```bash
+make clean
+```
